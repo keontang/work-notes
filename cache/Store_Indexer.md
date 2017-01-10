@@ -1,5 +1,9 @@
 # Related files
 
+`package cache` 定义了一个客户端的缓存机制，从而减少对 apiserver 的访问次数。
+
+比如 Scheduler 可能需要频繁地获取各种关于已调度、未调度的 Pod 信息，Minion 状态列表、Service 对象信息等。Scheduler 使用 Reflector 和 Poller 监测 server 端的数据变化并更新本地缓存。
+
 1. pkg/client/cache/store.go
 2. pkg/client/cache/index.go
 3. pkg/client/cache/thread_safe_store.go
