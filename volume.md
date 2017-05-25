@@ -1015,6 +1015,8 @@ func (rc *reconciler) reconcile() {
 <h2 id='1.7'>## operationexecutor 分析</h2>
 // TODO
 
+rbd 没有实现 attachable interface，所以 volume attach 操作不是由 attach detach controller 来做的，而是由 kubelet -> rbd plugin -> diskSetUp 来做的
+
 <h1 id='2'># References</h2>
 
 1. [volumes proposal](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/volumes.md)
