@@ -1,10 +1,42 @@
-# Volume 相关分析
-
 源码 1.6
 
-## Volume 相关 interface 和 struct
+**目录**
 
-### Volume interface
+- [Volume 相关分析](#1)
+    - [Volume 相关 interface 和 struct](#1.1)
+        - [Volume interface](#1.1.1)
+        - [MetricsProvider interface](#1.1.2)
+        - [Mounter interface](#1.1.3)
+        - [Unmounter interface](#1.1.4)
+        - [Provisioner interface](#1.1.5)
+        - [Deleter interface](#1.1.6)
+        - [Attacher interface](#1.1.7)
+        - [BulkVolumeVerifier interface](#1.1.8)
+        - [Detacher interface](#1.1.9)
+    - [VolumePlugin 相关 interface 和 struct](#1.2)
+        - [VolumePlugin interface](#1.2.1)
+        - [PersistentVolumePlugin interface](#1.2.2)
+        - [RecyclableVolumePlugin interface](#1.2.3)
+        - [DeletableVolumePlugin interface](#1.2.4)
+        - [ProvisionableVolumePlugin interface](#1.2.5)
+        - [AttachableVolumePlugin interface](#1.2.6)
+        - [VolumePluginMgr struct](#1.2.7)
+    - [kubelet 启动时注册和初始化 volume plugins](#1.3)
+        - [注册 volume plugins](#1.3.1)
+        - [初始化 volume plugins](#1.3.2)
+    - [Attach/Detach Controller 分析](#1.4)
+        - [功能分析](#1.4.1)
+        - [关键代码分析](#1.4.2)
+    - [pv Controller 分析](#1.5)
+    - [kubelet volumemanager 分析](#1.6)
+    - [operationexecutor 分析](#1.7)
+- [References](#2)
+
+<h1 id='1'># Volume 相关分析</h1>
+
+<h2 id='1.1'>## Volume 相关 interface 和 struct</h2>
+
+<h3 id='1.1.1'>### Volume interface</h3>
 
 ```
 // pkg/volume/volume.go
@@ -22,7 +54,7 @@ type Volume interface {
 }
 ```
 
-### MetricsProvider interface
+<h3 id='1.1.2'>### MetricsProvider interface</h3>
 
 ```
 // pkg/volume/volume.go
@@ -36,7 +68,7 @@ type MetricsProvider interface {
 }
 ```
 
-### Mounter interface
+<h3 id='1.1.3'>### Mounter interface</h3>
 
 `Mounter` 接口提供方法为 pod 挂载 volume.
 
@@ -77,7 +109,7 @@ type Mounter interface {
 }
 ```
 
-### Unmounter interface
+<h3 id='1.1.4'>### Unmounter interface</h3>
 
 `Unmounter` 接口提供方法为 pod 卸载 volume.
 
@@ -96,7 +128,7 @@ type Unmounter interface {
 }
 ```
 
-### Provisioner interface
+<h3 id='1.1.5'>### Provisioner interface</h3>
 
 `Provisioner` 通过底层的存储系统来创建 PersistentVolume.
 
@@ -113,7 +145,7 @@ type Provisioner interface {
 }
 ```
 
-### Deleter interface
+<h3 id='1.1.6'>### Deleter interface</h3>
 
 删除 volume 资源时, `Deleter` 负责删除底层的存储系统对应的资源.
 
@@ -137,7 +169,7 @@ type Deleter interface {
 }
 ```
 
-### Attacher interface
+<h3 id='1.1.7'>### Attacher interface</h3>
 
 `Attacher` 负责将 volume device 安装到 node 上, 比如 linux 的设备路径一般在 `/dev/` 目录下面.
 
@@ -173,7 +205,7 @@ type Attacher interface {
 }
 ```
 
-### BulkVolumeVerifier interface
+<h3 id='1.1.8'>### BulkVolumeVerifier interface</h3>
 
 ```
 // pkg/volume/volume.go
@@ -187,7 +219,7 @@ type BulkVolumeVerifier interface {
 }
 ```
 
-### Detacher interface
+<h3 id='1.1.9'>### Detacher interface</h3>
 
 `Detacher` 负责将 volume device 从 node 上删除.
 
@@ -206,9 +238,9 @@ type Detacher interface {
 }
 ```
 
-## VolumePlugin 相关 interface 和 struct
+<h2 id='1.2'>## VolumePlugin 相关 interface 和 struct</h2>
 
-### VolumePlugin interface
+<h3 id='1.2.1'>### VolumePlugin interface</h3>
 
 `VolumePlugin` 是 kubelet 调用当前 node 上的 volume plugin 的一个接口, kubelet 通过该接口实例化和管理 volume. 每一个 volume plugin 需要实现 `VolumePlugin interface` 中定义的方法.
 
@@ -283,7 +315,7 @@ type VolumePlugin interface {
 }
 ```
 
-### PersistentVolumePlugin interface
+<h3 id='1.2.2'>### PersistentVolumePlugin interface</h3>
 
 ```
 // pkg/volume/plugins.go
@@ -314,7 +346,7 @@ const (
 )
 ```
 
-### RecyclableVolumePlugin interface
+<h3 id='1.2.3'>### RecyclableVolumePlugin interface</h3>
 
 ```
 // pkg/volume/plugins.go
@@ -334,7 +366,7 @@ type RecyclableVolumePlugin interface {
 }
 ```
 
-### DeletableVolumePlugin interface
+<h3 id='1.2.4'>### DeletableVolumePlugin interface</h3>
 
 ```
 // pkg/volume/plugins.go
@@ -351,7 +383,7 @@ type DeletableVolumePlugin interface {
 }
 ```
 
-### ProvisionableVolumePlugin interface
+<h3 id='1.2.5'>### ProvisionableVolumePlugin interface</h3>
 
 ```
 // pkg/volume/plugins.go
@@ -367,7 +399,7 @@ type ProvisionableVolumePlugin interface {
 }
 ```
 
-### AttachableVolumePlugin interface
+<h3 id='1.2.6'>### AttachableVolumePlugin interface</h3>
 
 ```
 // pkg/volume/plugins.go
@@ -382,7 +414,7 @@ type AttachableVolumePlugin interface {
 }
 ```
 
-### VolumePluginMgr struct
+<h3 id='1.2.7'>### VolumePluginMgr struct</h3>
 
 kubelet 通过 `VolumePluginMgr struct` 管理所有注册的 volume plugins.
 
@@ -396,7 +428,7 @@ type VolumePluginMgr struct {
 }
 ```
 
-## kubelet 启动时注册和初始化 volume plugins
+<h2 id='1.3'>## kubelet 启动时注册和初始化 volume plugins</h2>
 
 ```
 // cmd/kubelet/app/server.go
@@ -417,7 +449,7 @@ func run(s *options.KubeletServer, kubeDeps *kubelet.KubeletDeps) (err error) {
 }
 ```
 
-### 注册 volume plugins
+<h3 id='1.3.1'>### 注册 volume plugins</h3>
 
 `UnsecuredKubeletDeps` 函数通过调用 `ProbeVolumePlugins` 函数注册所有可用的 volume plugins.
 
@@ -523,7 +555,7 @@ func ProbeVolumePlugins(pluginDir string) []volume.VolumePlugin {
 
 flexvolume 的详细分析请参考 [flex volume plugin 分析](flexvolume_plugin.md).
 
-### 初始化 volume plugins
+<h3 id='1.3.2'>### 初始化 volume plugins</h3>
 
 kubelet 利用 `VolumePluginMgr` 来初始化和获取 volume plugin.
 
@@ -613,9 +645,9 @@ func (pm *VolumePluginMgr) InitPlugins(plugins []VolumePlugin, host VolumeHost) 
 }
 ```
 
-## Attach/Detach Controller 分析
+<h2 id='1.4'>## Attach/Detach Controller 分析</h2>
 
-### 功能分析
+<h3 id='1.4.1'>### 功能分析</h3>
 
 Attach/Detach Controller 是在 1.3 版本中合入的, 为什么要引入这个 controller 呢? 原因主要有三个:
 
@@ -645,7 +677,7 @@ Attach/Detach Controller 是在 1.3 版本中合入的, 为什么要引入这个
 
 Attach/Detach Controller 主要负责集群中所有特定类型 (that volume type based on the node it is scheduled to, 我们后面统一称为`基于 node 的 volume 类型`) volume 的 attaching 和 detaching 工作. Attach/Detach Controller 将 watch pod 的调度和删除. 当一个新的 pod 被调度到 node 上的时候, 将为该 pod 使用的 volume 触发 attach 逻辑. 如果该 volume 类型为`基于 node 的 volume 类型`, 那么将触发该`基于 node 的 volume 类型`对应的 attach 逻辑, 比如 GCE PD 类型将触发 GCE PD attach 逻辑; 同样, 当一个 pod 被删除时, 将为该 pod 使用的 volume 触发 detach 逻辑, 如果该 volume 类型为`基于 node 的 volume 类型`, 那么将触发该`基于 node 的 volume 类型`对应的 detach 逻辑, 比如 GCE PD 类型将触发 GCE PD detach 逻辑. 如果该 volume 类型不属于`基于 node 的 volume 类型`, 那么其对应的 attach 和 detach 操作就是空的 (no-ops).
 
-### 关键代码分析
+<h3 id='1.4.2'>### 关键代码分析</h3>
 
 AttachDetachController 实例化代码如下:
 
@@ -974,16 +1006,16 @@ func (rc *reconciler) reconcile() {
 }
 ```
 
-## pv Controller 分析
+<h2 id='1.5'>## pv Controller 分析</h2>
 // TODO
 
-## kubelet volumemanager 分析
+<h2 id='1.6'>## kubelet volumemanager 分析</h2>
 // TODO
 
-## operationexecutor 分析
+<h2 id='1.7'>## operationexecutor 分析</h2>
 // TODO
 
-# References
+<h1 id='2'># References</h2>
 
 1. [volumes proposal](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/volumes.md)
 2. [Flexvolume proposal](https://github.com/kubernetes/community/blob/master/contributors/devel/flexvolume.md)
