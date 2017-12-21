@@ -809,6 +809,37 @@ func (p *KubernetesPlugin) createVolumeAndPV(uniqueName string,
             v1.PersistentVolumeReclaimRetain
     }
 
+    driverType := p.orchestrator.GetDriverTypeForVolume(vol)
+    switch {
+    case driverType == dvp.SolidfireSANStorageDriverName ||
+        driverType == dvp.OntapSANStorageDriverName ||
+        driverType == dvp.EseriesIscsiStorageDriverName:
+        iscsiSource, err = CreateISCSIVolumeSource(k8sClient, kubeVersion, vol)
+        if err != nil {
+            return
+        }
+        pv.Spec.ISCSI = iscsiSource
+    case driverType == dvp.OntapNASStorageDriverName ||
+        driverType == dvp.OntapNASQtreeStorageDriverName:
+        nfsSource = CreateNFSVolumeSource(vol)
+        // nfsSource contains a server and a path
+        // kubelet uses pv.Spec.NFS to mount a nfs volume into a pod
+        pv.Spec.NFS = nfsSource
+    case driverType == fake.FakeStorageDriverName:
+        if vol.Config.Protocol == config.File {
+            nfsSource = CreateNFSVolumeSource(vol)
+            pv.Spec.NFS = nfsSource
+        } else if vol.Config.Protocol == config.Block {
+            iscsiSource, err = CreateISCSIVolumeSource(k8sClient, kubeVersion, vol)
+            if err != nil {
+                return
+            }
+            pv.Spec.ISCSI = iscsiSource
+        }
+    default:
+        return
+    }
+
     pv, err = p.kubeClient.Core().PersistentVolumes().Create(pv)
     return
 }
