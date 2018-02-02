@@ -1,3 +1,39 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [# Volume 相关分析](#-volume-%E7%9B%B8%E5%85%B3%E5%88%86%E6%9E%90)
+  - [## Volume 相关 interface 和 struct](#-volume-%E7%9B%B8%E5%85%B3-interface-%E5%92%8C-struct)
+    - [### Volume interface](#-volume-interface)
+    - [### MetricsProvider interface](#-metricsprovider-interface)
+    - [### Mounter interface](#-mounter-interface)
+    - [### Unmounter interface](#-unmounter-interface)
+    - [### Provisioner interface](#-provisioner-interface)
+    - [### Deleter interface](#-deleter-interface)
+    - [### Attacher interface](#-attacher-interface)
+    - [### BulkVolumeVerifier interface](#-bulkvolumeverifier-interface)
+    - [### Detacher interface](#-detacher-interface)
+  - [## VolumePlugin 相关 interface 和 struct](#-volumeplugin-%E7%9B%B8%E5%85%B3-interface-%E5%92%8C-struct)
+    - [### VolumePlugin interface](#-volumeplugin-interface)
+    - [### PersistentVolumePlugin interface](#-persistentvolumeplugin-interface)
+    - [### RecyclableVolumePlugin interface](#-recyclablevolumeplugin-interface)
+    - [### DeletableVolumePlugin interface](#-deletablevolumeplugin-interface)
+    - [### ProvisionableVolumePlugin interface](#-provisionablevolumeplugin-interface)
+    - [### AttachableVolumePlugin interface](#-attachablevolumeplugin-interface)
+    - [### VolumePluginMgr struct](#-volumepluginmgr-struct)
+  - [## kubelet 启动时注册和初始化 volume plugins](#-kubelet-%E5%90%AF%E5%8A%A8%E6%97%B6%E6%B3%A8%E5%86%8C%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96-volume-plugins)
+    - [### 注册 volume plugins](#-%E6%B3%A8%E5%86%8C-volume-plugins)
+    - [### 初始化 volume plugins](#-%E5%88%9D%E5%A7%8B%E5%8C%96-volume-plugins)
+  - [## Attach/Detach Controller 分析](#-attachdetach-controller-%E5%88%86%E6%9E%90)
+    - [### 功能分析](#-%E5%8A%9F%E8%83%BD%E5%88%86%E6%9E%90)
+    - [### 关键代码分析](#-%E5%85%B3%E9%94%AE%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90)
+  - [## pv Controller 分析](#-pv-controller-%E5%88%86%E6%9E%90)
+  - [## kubelet volumemanager 分析](#-kubelet-volumemanager-%E5%88%86%E6%9E%90)
+  - [## operationexecutor 分析](#-operationexecutor-%E5%88%86%E6%9E%90)
+- [# References](#-references)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 源码 1.6
 
 **目录**

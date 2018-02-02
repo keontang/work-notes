@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Set openrc](#set-openrc)
+- [Get keystone token](#get-keystone-token)
+- [Export OS_TOKEN](#export-os_token)
+- [Test: get gbp l3_policies from neutron](#test-get-gbp-l3_policies-from-neutron)
+- [Test: get projects from keystone](#test-get-projects-from-keystone)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Set openrc
 
 ```

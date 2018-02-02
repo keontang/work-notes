@@ -1,3 +1,13 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [API Machinery](#api-machinery)
+- [API对象](#api%E5%AF%B9%E8%B1%A1)
+- [API Package](#api-package)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # API Machinery
 
 The Kubernetes API has two major components - the internal structures and the versioned APIs. The versioned APIs are intended to be stable, while the internal structures are implemented to best reflect the needs of the Kubernetes code itself.

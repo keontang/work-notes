@@ -1,3 +1,40 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [名称解释](#%E5%90%8D%E7%A7%B0%E8%A7%A3%E9%87%8A)
+  - [IPAM](#ipam)
+  - [CIDR](#cidr)
+- [CNI](#cni)
+  - [CNI 网络配置](#cni-%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE)
+  - [<h2 id="CNI_INTERFACE">CNI 库接口</h2>](#h2-idcni_interfacecni-%E5%BA%93%E6%8E%A5%E5%8F%A3h2)
+  - [CNI plugin](#cni-plugin)
+  - [官方的 bridge CNI 插件框架代码分析](#%E5%AE%98%E6%96%B9%E7%9A%84-bridge-cni-%E6%8F%92%E4%BB%B6%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90)
+- [Kubernetes 网络框架](#kubernetes-%E7%BD%91%E7%BB%9C%E6%A1%86%E6%9E%B6)
+  - [kubernetes 网络框架接口](#kubernetes-%E7%BD%91%E7%BB%9C%E6%A1%86%E6%9E%B6%E6%8E%A5%E5%8F%A3)
+  - [kubelet 启动时选择合适的网络插件](#kubelet-%E5%90%AF%E5%8A%A8%E6%97%B6%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E7%BD%91%E7%BB%9C%E6%8F%92%E4%BB%B6)
+    - [查找所有可用的网络插件](#%E6%9F%A5%E6%89%BE%E6%89%80%E6%9C%89%E5%8F%AF%E7%94%A8%E7%9A%84%E7%BD%91%E7%BB%9C%E6%8F%92%E4%BB%B6)
+    - [根据用户配置选择对应的网络插件](#%E6%A0%B9%E6%8D%AE%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E9%80%89%E6%8B%A9%E5%AF%B9%E5%BA%94%E7%9A%84%E7%BD%91%E7%BB%9C%E6%8F%92%E4%BB%B6)
+  - [k8s kubenet 网络框架](#k8s-kubenet-%E7%BD%91%E7%BB%9C%E6%A1%86%E6%9E%B6)
+    - [k8s kubenet plugin 对象初始化](#k8s-kubenet-plugin-%E5%AF%B9%E8%B1%A1%E5%88%9D%E5%A7%8B%E5%8C%96)
+    - [k8s kubenet plugin 初始化工作](#k8s-kubenet-plugin-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%B7%A5%E4%BD%9C)
+    - [kubenet Event](#kubenet-event)
+    - [kubenet SetUpPod](#kubenet-setuppod)
+    - [kubenet TearDownPod](#kubenet-teardownpod)
+  - [k8s CNI 网络插件](#k8s-cni-%E7%BD%91%E7%BB%9C%E6%8F%92%E4%BB%B6)
+    - [k8s CNI plugin 对象初始化](#k8s-cni-plugin-%E5%AF%B9%E8%B1%A1%E5%88%9D%E5%A7%8B%E5%8C%96)
+    - [k8s CNI plugin 初始化工作](#k8s-cni-plugin-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%B7%A5%E4%BD%9C)
+    - [CNI Event](#cni-event)
+    - [CNI SetUpPod](#cni-setuppod)
+    - [CNI TearDownPod](#cni-teardownpod)
+- [网络模型和网络功能测试](#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BD%91%E7%BB%9C%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95)
+  - [Kubernetes model](#kubernetes-model)
+  - [Kubernetes network test](#kubernetes-network-test)
+- [k8s CNI 社区动态](#k8s-cni-%E7%A4%BE%E5%8C%BA%E5%8A%A8%E6%80%81)
+- [References](#references)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 名称解释
 
 ## IPAM
@@ -1356,6 +1393,101 @@ func (network *cniNetwork) deleteFromNetwork(podName string, podNamespace string
 ```
 
 由前面 [CNI 库接口](#CNI_INTERFACE)可知, cninet.DelNetwork() 实际上调用的是 cni plugin 去删除容器网络配置.
+
+# 网络模型和网络功能测试
+
+## Kubernetes model
+
+Coordinating ports across multiple developers is very difficult to do at scale and exposes users to cluster-level issues outside of their control. Dynamic port allocation brings a lot of complications to the system - every application has to take ports as flags, the API servers have to know how to insert dynamic port numbers into configuration blocks, services have to know how to find each other, etc. Rather than deal with this, Kubernetes takes a different approach.
+
+Kubernetes **imposes** the following fundamental requirements on any networking implementation (barring any intentional network segmentation policies):
+
+- all containers can communicate with all other containers without NAT
+- all nodes can communicate with all containers (and vice-versa) without NAT
+- the IP that a container sees itself as is the same IP that others see it as
+
+What this means in practice is that you can not just take two computers running Docker and expect Kubernetes to work. You must ensure that the fundamental requirements are met.
+
+This model is not only less complex overall, but it is principally compatible with the desire for Kubernetes to enable low-friction porting of apps from VMs to containers. If your job previously ran in a VM, your VM had an IP and could talk to other VMs in your project. This is the same basic model.
+
+Until now this document has talked about containers. In reality, Kubernetes applies IP addresses at the Pod scope - containers within a Pod share their network namespaces - including their IP address. This means that containers within a Pod can all reach each other’s ports on localhost. This does imply that containers within a Pod must coordinate port usage, but this is no different than processes in a VM. We call this the “IP-per-pod” model. This is implemented in Docker as a “pod container” which holds the network namespace open while “app containers” (the things the user specified) join that namespace with Docker’s `--net=container:<id>` function.
+
+As with Docker, it is possible to request host ports, but this is reduced to a very niche operation. In this case a port will be allocated on the host Node and traffic will be forwarded to the Pod. The Pod itself is blind to the existence or non-existence of host ports.
+
+**Refer to**: [kubernetes-model](https://kubernetes.io/docs/concepts/cluster-administration/networking/#kubernetes-model)
+
+## Kubernetes network test
+
+I tried to enumerate everything you have to test:
+
+```
+pod -> pod, same VM
+pop -> pod, other VM
+pod -> own VM, own hostPort
+pod -> own VM, other hostPort
+pod -> other VM, other hostPort
+
+pod -> own VM
+pod -> other VM
+pod -> internet
+pod -> http://metadata
+
+VM -> pod, same VM
+VM -> pod, other VM
+VM -> same VM hostPort
+VM -> other VM hostPort
+
+pod -> own clusterIP, hairpin
+pod -> own clusterIP, same VM, other pod, no port remap
+pod -> own clusterIP, same VM, other pod, port remap
+pod -> own clusterIP, other VM, other pod, no port remap
+pod -> own clusterIP, other VM, other pod, port remap
+pod -> other clusterIP, same VM, no port remap
+pod -> other clusterIP, same VM, port remap
+pod -> other clusterIP, other VM, no port remap
+pod -> other clusterIP, other VM, port remap
+pod -> own node, own nodePort, hairpin
+pod -> own node, own nodePort, policy=local
+pod -> own node, own nodePort, same VM
+pod -> own node, own nodePort, other VM
+pod -> own node, other nodePort, policy=local
+pod -> own node, other nodePort, same VM
+pod -> own node, other nodePort, other VM
+pod -> other node, own nodeport, policy=local
+pod -> other node, own nodeport, same VM
+pod -> other node, own nodeport, other VM
+pod -> other node, other nodeport, policy=local
+pod -> other node, other nodeport, same VM
+pod -> other node, other nodeport, other VM
+pod -> own external LB, no remap, policy=local
+pod -> own external LB, no remap, same VM
+pod -> own external LB, no remap, other VM
+pod -> own external LB, remap, policy=local
+pod -> own external LB, remap, same VM
+pod -> own external LB, remap, other VM
+
+VM -> same VM nodePort, policy=local
+VM -> same VM nbodePort, same VM
+VM -> same VM nbodePort, other VM
+VM -> other VM nodePort, policy=local
+VM -> other VM nbodePort, same VM
+VM -> other VM nbodePort, other VM
+
+VM -> external LB
+
+public -> nodeport, policy=local
+public -> nodeport, policy=global
+public -> external LB, no remap, policy=local
+public -> external LB, no remap, policy=global
+public -> external LB, remap, policy=local
+public -> external LB, remap, policy=global
+
+public -> nodeport, manual backend
+public -> external LB, manual backend
+```
+
+**refer to**: [https://github.com/kubernetes/community/pull/692#discussion_r121268810](https://github.com/kubernetes/community/pull/692#discussion_r121268810)
+
 
 # k8s CNI 社区动态
 

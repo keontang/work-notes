@@ -1,3 +1,20 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Service yaml](#service-yaml)
+- [Endpoint yaml](#endpoint-yaml)
+- [<h1 id="1">1. kuryr-k8s-controller</h1>](#h1-id11-kuryr-k8s-controllerh1)
+  - [<h2 id="1.1">1.1. KuryrK8sService</h2>](#h2-id1111-kuryrk8sserviceh2)
+    - [<h3 id="1.1.1">1.1.1. ControllerPipeline</h3>](#h3-id111111-controllerpipelineh3)
+      - [<h4 id="1.1.1.1">1.1.1.1. Retry</h4>](#h4-id11111111-retryh4)
+      - [<h4 id="1.1.1.2">1.1.1.2. Async</h4>](#h4-id11121112-asynch4)
+    - [<h3 id="1.1.2">1.1.2. VIFHandler</h3>](#h3-id112112-vifhandlerh3)
+    - [<h3 id="1.1.3">1.1.3. LBaaSSpecHandler</h3>](#h3-id113113-lbaasspechandlerh3)
+    - [<h3 id="1.1.4">1.1.4. LoadBalancerHandler</h3>](#h3-id114114-loadbalancerhandlerh3)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 * [1. kuryr-k8s-controller](#1)
     * [1.1. KuryrK8sService](#1.1)
         * [1.1.1. ControllerPipeline](#1.1.1)

@@ -1,3 +1,33 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [k8s rebase 的流程概要](#k8s-rebase-%E7%9A%84%E6%B5%81%E7%A8%8B%E6%A6%82%E8%A6%81)
+  - [1. 代码 rebase](#1-%E4%BB%A3%E7%A0%81-rebase)
+  - [<h2 id="2">2. 重新生成所需的代码和对象</h2>](#h2-id22-%E9%87%8D%E6%96%B0%E7%94%9F%E6%88%90%E6%89%80%E9%9C%80%E7%9A%84%E4%BB%A3%E7%A0%81%E5%92%8C%E5%AF%B9%E8%B1%A1h2)
+    - [重新生成 conversion 文件和 deepcopy 文件](#%E9%87%8D%E6%96%B0%E7%94%9F%E6%88%90-conversion-%E6%96%87%E4%BB%B6%E5%92%8C-deepcopy-%E6%96%87%E4%BB%B6)
+    - [<h2 id="2.2">重新生成 protobuf objects</h2>](#h2-id22%E9%87%8D%E6%96%B0%E7%94%9F%E6%88%90-protobuf-objectsh2)
+    - [重新生成 json (un)marshaling 代码](#%E9%87%8D%E6%96%B0%E7%94%9F%E6%88%90-json-unmarshaling-%E4%BB%A3%E7%A0%81)
+  - [3. 更新 Godep](#3-%E6%9B%B4%E6%96%B0-godep)
+    - [Godep restore](#godep-restore)
+    - [Godep save](#godep-save)
+  - [4. k8s 源码编译](#4-k8s-%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91)
+  - [5. unit test](#5-unit-test)
+    - [k8s.io/kubernetes/pkg/api](#k8siokubernetespkgapi)
+    - [k8s.io/kubernetes/pkg/util/oom](#k8siokubernetespkgutiloom)
+    - [k8s.io/kubernetes/plugin/pkg/scheduler](#k8siokubernetespluginpkgscheduler)
+  - [6. integration test](#6-integration-test)
+    - [install etcd v3.0.15](#install-etcd-v3015)
+    - [ulimit -n 4096](#ulimit--n-4096)
+    - [integration test](#integration-test)
+  - [7. e2e test](#7-e2e-test)
+    - [kube up a k8s cluster](#kube-up-a-k8s-cluster)
+    - [Build binaries for testing](#build-binaries-for-testing)
+    - [Run all tests](#run-all-tests)
+    - [查看 e2e 结果](#%E6%9F%A5%E7%9C%8B-e2e-%E7%BB%93%E6%9E%9C)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # k8s rebase 的流程概要
 
 environment：ubuntu 14.04

@@ -1,3 +1,27 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [<h1 id="1">1. kubelet 调用 cni 插件的流程</h1>](#h1-id11-kubelet-%E8%B0%83%E7%94%A8-cni-%E6%8F%92%E4%BB%B6%E7%9A%84%E6%B5%81%E7%A8%8Bh1)
+- [<h1 id="2">2. Pod watch event example</h1>](#h1-id22-pod-watch-event-exampleh1)
+- [<h1 id="3">3. kuryr-k8s-contorller 添加的 pod annotation</h1>](#h1-id33-kuryr-k8s-contorller-%E6%B7%BB%E5%8A%A0%E7%9A%84-pod-annotationh1)
+- [<h1 id="4">4. kuryr-cni</h1>](#h1-id44-kuryr-cnih1)
+  - [<h2 id="4.1">4.1. kuryr-cni 可执行文件</h2>](#h2-id4141-kuryr-cni-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6h2)
+  - [<h2 id="4.2">4.2. kuryr-kubernetes/cni/main.py</h2>](#h2-id4242-kuryr-kubernetescnimainpyh2)
+  - [<h2 id="4.3">4.3. CNIRunner</h2>](#h2-id4343-cnirunnerh2)
+  - [<h2 id="4.4">4.4. K8sCNIPlugin</h2>](#h2-id4444-k8scnipluginh2)
+  - [<h2 id="4.5">4.5. Watcher</h2>](#h2-id4545-watcherh2)
+  - [<h2 id="4.6">4.6. CNIPipeline</h2>](#h2-id4646-cnipipelineh2)
+  - [<h2 id="4.7">4.7. Dispatcher</h2>](#h2-id4747-dispatcherh2)
+  - [<h2 id="4.8">4.8. AddHandler</h2>](#h2-id4848-addhandlerh2)
+    - [<h3 id="4.8.1">4.8.1. openstack/os-vif/os_vif/__init__.py</h3>](#h3-id481481-openstackos-vifos_vif__init__pyh3)
+    - [<h3 id="4.8.2">4.8.2. VIFOpenVSwitchDriver</h3>](#h3-id482482-vifopenvswitchdriverh3)
+      - [<h4 id="4.8.2.1">4.8.2.1. BaseBridgeDriver</h4>](#h4-id48214821-basebridgedriverh4)
+      - [<h4 id="4.8.2.2">4.8.2.2. create_ovs_vif_port</h4>](#h4-id48224822-create_ovs_vif_porth4)
+    - [<h3 id="4.8.3">4.8.3. _configure_l3</h3>](#h3-id483483-_configure_l3h3)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 * [1. kubelet 调用 cni 插件的流程](#1)
 * [2. Pod watch event example](#2)
 * [3. kuryr-k8s-contorller 添加的 pod annotation](#3)

@@ -1,3 +1,16 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [netapp trident 源码分析](#netapp-trident-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90)
+  - [目录结构](#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84)
+  - [main.go](#maingo)
+  - [orchestrator_core.go](#orchestrator_corego)
+  - [kubernetes/plugin.go](#kubernetesplugingo)
+  - [kubernetes/volumes.go](#kubernetesvolumesgo)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # netapp trident 源码分析
 
 ## 目录结构

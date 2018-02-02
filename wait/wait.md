@@ -1,3 +1,16 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [package wait](#package-wait)
+  - [Related files](#related-files)
+  - [Forever](#forever)
+  - [Until](#until)
+  - [JitterUntil](#jitteruntil)
+  - [Jitter](#jitter)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # package wait
 
 ## Related files

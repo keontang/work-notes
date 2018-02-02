@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Related files](#related-files)
+- [Queue interface](#queue-interface)
+- [FIFO struct](#fifo-struct)
+  - [Methods of FIFO](#methods-of-fifo)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Related files
 
 1. pkg/client/cache/fifo.go

@@ -1,3 +1,22 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Related files](#related-files)
+- [Store interface](#store-interface)
+- [Indexer interface](#indexer-interface)
+  - [数据库索引](#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95)
+  - [Indexer interface](#indexer-interface-1)
+    - [Index(indexName string, obj interface{}) ([]interface{}, error)](#indexindexname-string-obj-interface-interface-error)
+    - [ListIndexFuncValues(indexName string) []string](#listindexfuncvaluesindexname-string-string)
+    - [ByIndex(indexName, indexKey string) ([]interface{}, error)](#byindexindexname-indexkey-string-interface-error)
+- [ThreadSafeStorage interface](#threadsafestorage-interface)
+- [cache struct](#cache-struct)
+  - [threadSafeMap struct](#threadsafemap-struct)
+  - [updateIndices and deleteFromIndices](#updateindices-and-deletefromindices)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Related files
 
 `package cache` 定义了一个客户端的缓存机制，从而减少对 apiserver 的访问次数。

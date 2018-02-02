@@ -1,3 +1,12 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [PV/PVC](#pvpvc)
+- [PV and PVC share](#pv-and-pvc-share)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # PV/PVC
 
 Three approaches to use cloud disk:
