@@ -1,3 +1,11 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [netplugin 分析系列](#netplugin-%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # netplugin 分析系列
 
 - [netplugin 分析一：contiv 基本概念](./contiv基本概念分析.md)

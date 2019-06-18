@@ -1,3 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Network Policies](#network-policies)
+  - [Network Isolation Policies](#network-isolation-policies)
+    - [Creating a Policy Using the CLI](#creating-a-policy-using-the-cli)
+    - [Associating a Network Isolation Policy to a Group](#associating-a-network-isolation-policy-to-a-group)
+    - [Associating Multiple Policies with a Group](#associating-multiple-policies-with-a-group)
+    - [Associating a Policy with Multiple Groups](#associating-a-policy-with-multiple-groups)
+  - [Network Bandwidth Limiting](#network-bandwidth-limiting)
+    - [Creating a Bandwidth Policy using the CLI](#creating-a-bandwidth-policy-using-the-cli)
+    - [Using Traffic Prioritization for Network-Wide Application Behavior](#using-traffic-prioritization-for-network-wide-application-behavior)
+- [policy restful api 分析](#policy-restful-api-%E5%88%86%E6%9E%90)
+  - [policy create](#policy-create)
+  - [policy delete](#policy-delete)
+- [netprofile restful api 分析](#netprofile-restful-api-%E5%88%86%E6%9E%90)
+  - [netprofile create](#netprofile-create)
+  - [netprofile delete](#netprofile-delete)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Network Policies
 
 Network policies describe rules for network resource usage, isolation rules, prioritization, and other network behavior on a group of containers.

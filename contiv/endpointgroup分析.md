@@ -1,3 +1,23 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [endpointgroup create](#endpointgroup-create)
+  - [netmaster 流程](#netmaster-%E6%B5%81%E7%A8%8B)
+    - [httpCreateEndpointGroup](#httpcreateendpointgroup)
+  - [netplugin 流程](#netplugin-%E6%B5%81%E7%A8%8B)
+    - [handleEpgEvents](#handleepgevents)
+    - [processStateEvent](#processstateevent)
+    - [processEpgEvent](#processepgevent)
+- [endpointgroup delete](#endpointgroup-delete)
+  - [netmaster 流程](#netmaster-%E6%B5%81%E7%A8%8B-1)
+  - [netplugin 流程](#netplugin-%E6%B5%81%E7%A8%8B-1)
+    - [handleEpgEvents](#handleepgevents-1)
+    - [processStateEvent 处理 EndpointGroupState 事件](#processstateevent-%E5%A4%84%E7%90%86-endpointgroupstate-%E4%BA%8B%E4%BB%B6)
+    - [processEpgEvent](#processepgevent-1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # endpointgroup create
 
 ```

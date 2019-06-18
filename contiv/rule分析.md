@@ -1,3 +1,24 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [rule add](#rule-add)
+  - [netmaster 流程](#netmaster-%E6%B5%81%E7%A8%8B)
+    - [httpCreateRule](#httpcreaterule)
+  - [netplugin 流程](#netplugin-%E6%B5%81%E7%A8%8B)
+    - [handlePolicyRuleEvent 处理 CfgPolicyRule 事件](#handlepolicyruleevent-%E5%A4%84%E7%90%86-cfgpolicyrule-%E4%BA%8B%E4%BB%B6)
+    - [processStateEvent 处理 CfgPolicyRule 事件](#processstateevent-%E5%A4%84%E7%90%86-cfgpolicyrule-%E4%BA%8B%E4%BB%B6)
+    - [processPolicyRuleState](#processpolicyrulestate)
+- [rule delete](#rule-delete)
+  - [netmaster 流程](#netmaster-%E6%B5%81%E7%A8%8B-1)
+    - [httpDeleteRule](#httpdeleterule)
+  - [netplugin 流程](#netplugin-%E6%B5%81%E7%A8%8B-1)
+    - [handlePolicyRuleEvents](#handlepolicyruleevents)
+    - [processStateEvent 处理 CfgPolicyRule 事件](#processstateevent-%E5%A4%84%E7%90%86-cfgpolicyrule-%E4%BA%8B%E4%BB%B6-1)
+    - [processPolicyRuleState](#processpolicyrulestate-1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # rule add
 
 ```

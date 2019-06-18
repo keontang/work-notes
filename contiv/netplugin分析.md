@@ -1,3 +1,44 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [netplugin 框架代码分析](#netplugin-%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90)
+  - [netplugin 参数分析](#netplugin-%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90)
+  - [相关数据结构](#%E7%9B%B8%E5%85%B3%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
+  - [程序入口](#%E7%A8%8B%E5%BA%8F%E5%85%A5%E5%8F%A3)
+  - [NewAgent 负责在 Node 上创建 netplugin 实例](#newagent-%E8%B4%9F%E8%B4%A3%E5%9C%A8-node-%E4%B8%8A%E5%88%9B%E5%BB%BA-netplugin-%E5%AE%9E%E4%BE%8B)
+    - [创建基于 etcd/consul 存储的 client](#%E5%88%9B%E5%BB%BA%E5%9F%BA%E4%BA%8E-etcdconsul-%E5%AD%98%E5%82%A8%E7%9A%84-client)
+    - [初始化 netplugin 依赖的驱动](#%E5%88%9D%E5%A7%8B%E5%8C%96-netplugin-%E4%BE%9D%E8%B5%96%E7%9A%84%E9%A9%B1%E5%8A%A8)
+    - [启动 cni plugin server](#%E5%90%AF%E5%8A%A8-cni-plugin-server)
+  - [根据 Node 当前状态更新 Node 环境环境](#%E6%A0%B9%E6%8D%AE-node-%E5%BD%93%E5%89%8D%E7%8A%B6%E6%80%81%E6%9B%B4%E6%96%B0-node-%E7%8E%AF%E5%A2%83%E7%8E%AF%E5%A2%83)
+    - [Infra 网络处理](#infra-%E7%BD%91%E7%BB%9C%E5%A4%84%E7%90%86)
+    - [处理 network event](#%E5%A4%84%E7%90%86-network-event)
+    - [处理 endpoint event](#%E5%A4%84%E7%90%86-endpoint-event)
+    - [func (p *NetPlugin) CreateEndpoint](#func-p-netplugin-createendpoint)
+    - [处理 bgp event](#%E5%A4%84%E7%90%86-bgp-event)
+    - [处理 enpoint group event](#%E5%A4%84%E7%90%86-enpoint-group-event)
+    - [处理 servicelb event](#%E5%A4%84%E7%90%86-servicelb-event)
+  - [处理 service provider update event](#%E5%A4%84%E7%90%86-service-provider-update-event)
+  - [侦听 cluster 中 Netplugin 实例和 Netmaster 实例变化，提供 Netplugin 实例的状态信息接口和调试接口](#%E4%BE%A6%E5%90%AC-cluster-%E4%B8%AD-netplugin-%E5%AE%9E%E4%BE%8B%E5%92%8C-netmaster-%E5%AE%9E%E4%BE%8B%E5%8F%98%E5%8C%96%E6%8F%90%E4%BE%9B-netplugin-%E5%AE%9E%E4%BE%8B%E7%9A%84%E7%8A%B6%E6%80%81%E4%BF%A1%E6%81%AF%E6%8E%A5%E5%8F%A3%E5%92%8C%E8%B0%83%E8%AF%95%E6%8E%A5%E5%8F%A3)
+  - [netplugin wait 等待处理各种 event](#netplugin-wait-%E7%AD%89%E5%BE%85%E5%A4%84%E7%90%86%E5%90%84%E7%A7%8D-event)
+    - [等待接受网络变更信息，更新 Node 网络状态](#%E7%AD%89%E5%BE%85%E6%8E%A5%E5%8F%97%E7%BD%91%E7%BB%9C%E5%8F%98%E6%9B%B4%E4%BF%A1%E6%81%AF%E6%9B%B4%E6%96%B0-node-%E7%BD%91%E7%BB%9C%E7%8A%B6%E6%80%81)
+      - [processEpgEvent](#processepgevent)
+      - [processRemoteEpState](#processremoteepstate)
+    - [watch k8s service 和 endpoint 变化并更新 Node 网络信息](#watch-k8s-service-%E5%92%8C-endpoint-%E5%8F%98%E5%8C%96%E5%B9%B6%E6%9B%B4%E6%96%B0-node-%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF)
+      - [K8S Service vs Contiv ServiceLB](#k8s-service-vs-contiv-servicelb)
+      - [K8S Endpoint vs Contiv ServiceProvider](#k8s-endpoint-vs-contiv-serviceprovider)
+  - [将 pod 添加到 contiv 网络](#%E5%B0%86-pod-%E6%B7%BB%E5%8A%A0%E5%88%B0-contiv-%E7%BD%91%E7%BB%9C)
+    - [获取 pod label 信息，并构建 contiv endpointSpec](#%E8%8E%B7%E5%8F%96-pod-label-%E4%BF%A1%E6%81%AF%E5%B9%B6%E6%9E%84%E5%BB%BA-contiv-endpointspec)
+    - [创建 contiv endpoint](#%E5%88%9B%E5%BB%BA-contiv-endpoint)
+    - [network driver 创建 contiv endpoint](#network-driver-%E5%88%9B%E5%BB%BA-contiv-endpoint)
+    - [将 interface 添加到 pod，并设置 interface 属性](#%E5%B0%86-interface-%E6%B7%BB%E5%8A%A0%E5%88%B0-pod%E5%B9%B6%E8%AE%BE%E7%BD%AE-interface-%E5%B1%9E%E6%80%A7)
+    - [为 pod 设置默认路由](#%E4%B8%BA-pod-%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E8%B7%AF%E7%94%B1)
+  - [将 pod 从 contiv 网络删除](#%E5%B0%86-pod-%E4%BB%8E-contiv-%E7%BD%91%E7%BB%9C%E5%88%A0%E9%99%A4)
+    - [netplugin 删除 host access port](#netplugin-%E5%88%A0%E9%99%A4-host-access-port)
+    - [ovs 删除 host access port](#ovs-%E5%88%A0%E9%99%A4-host-access-port)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # netplugin 框架代码分析
 
 netplugin 主要做如下事情：

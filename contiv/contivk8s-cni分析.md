@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [cni 插件](#cni-%E6%8F%92%E4%BB%B6)
+- [cni 插件代码流程](#cni-%E6%8F%92%E4%BB%B6%E4%BB%A3%E7%A0%81%E6%B5%81%E7%A8%8B)
+- [添加 pod 到 contiv 网络](#%E6%B7%BB%E5%8A%A0-pod-%E5%88%B0-contiv-%E7%BD%91%E7%BB%9C)
+- [从 contiv 网络删除 pod](#%E4%BB%8E-contiv-%E7%BD%91%E7%BB%9C%E5%88%A0%E9%99%A4-pod)
+- [References](#references)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # cni 插件
 
 kubelet 调用 cni 二进制文件执行时, 参数传递由两部分组成, 一部分通过 `env` 环境变量传入, 这部分主要是 `cni` 插件执行 `ADD` 或者 `DEL` 函数时所需要的参数：

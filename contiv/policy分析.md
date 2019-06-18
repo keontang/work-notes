@@ -1,3 +1,20 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [policy create](#policy-create)
+  - [netmaster 流程](#netmaster-%E6%B5%81%E7%A8%8B)
+    - [httpCreatePolicy](#httpcreatepolicy)
+- [policy delete](#policy-delete)
+  - [netmaster 流程](#netmaster-%E6%B5%81%E7%A8%8B-1)
+  - [netplugin 流程](#netplugin-%E6%B5%81%E7%A8%8B)
+    - [PolicyAgent.DelRule](#policyagentdelrule)
+    - [handlePolicyRuleEvents](#handlepolicyruleevents)
+    - [processStateEvent 处理 CfgPolicyRule event](#processstateevent-%E5%A4%84%E7%90%86-cfgpolicyrule-event)
+    - [processPolicyRuleState](#processpolicyrulestate)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # policy create
 
 ```

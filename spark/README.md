@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [spark 介绍](#spark-%E4%BB%8B%E7%BB%8D)
+  - [基本概念](#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5)
+  - [架构原理](#%E6%9E%B6%E6%9E%84%E5%8E%9F%E7%90%86)
+  - [spark client mode vs cluster mode](#spark-client-mode-vs-cluster-mode)
+    - [spark-submit 参数](#spark-submit-%E5%8F%82%E6%95%B0)
+    - [client mode](#client-mode)
+    - [cluster mode](#cluster-mode)
+  - [spark on k8s](#spark-on-k8s)
+    - [结合 spark-submit](#%E7%BB%93%E5%90%88-spark-submit)
+    - [spark operator](#spark-operator)
+- [参考](#%E5%8F%82%E8%80%83)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # spark 介绍
 
 ## 基本概念

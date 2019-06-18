@@ -1,3 +1,32 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [netmaster 框架代码分析](#netmaster-%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90)
+  - [netmaster 参数分析](#netmaster-%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90)
+  - [相关数据结构](#%E7%9B%B8%E5%85%B3%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)
+  - [程序入口](#%E7%A8%8B%E5%BA%8F%E5%85%A5%E5%8F%A3)
+  - [初始化 MasterDaemon 实例](#%E5%88%9D%E5%A7%8B%E5%8C%96-masterdaemon-%E5%AE%9E%E4%BE%8B)
+  - [启动 netmaster daemon 实例](#%E5%90%AF%E5%8A%A8-netmaster-daemon-%E5%AE%9E%E4%BE%8B)
+  - [初始化 netmaster daemon](#%E5%88%9D%E5%A7%8B%E5%8C%96-netmaster-daemon)
+  - [初始化 netmaster daemon 的 watch 服务](#%E5%88%9D%E5%A7%8B%E5%8C%96-netmaster-daemon-%E7%9A%84-watch-%E6%9C%8D%E5%8A%A1)
+  - [netmaster daemon FSM 启动流程](#netmaster-daemon-fsm-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B)
+  - [leader netmaster 处理逻辑](#leader-netmaster-%E5%A4%84%E7%90%86%E9%80%BB%E8%BE%91)
+    - [创建 apicontroller 实例](#%E5%88%9B%E5%BB%BA-apicontroller-%E5%AE%9E%E4%BE%8B)
+    - [恢复 mastercfg 中 ServiceLBDb 和 ProviderDb 缓存数据](#%E6%81%A2%E5%A4%8D-mastercfg-%E4%B8%AD-servicelbdb-%E5%92%8C-providerdb-%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE)
+    - [注册该 netmaster 节点](#%E6%B3%A8%E5%86%8C%E8%AF%A5-netmaster-%E8%8A%82%E7%82%B9)
+    - [初始化 policy manager](#%E5%88%9D%E5%A7%8B%E5%8C%96-policy-manager)
+    - [提供其他的 restful 接口](#%E6%8F%90%E4%BE%9B%E5%85%B6%E4%BB%96%E7%9A%84-restful-%E6%8E%A5%E5%8F%A3)
+      - [contiv endpoint 创建](#contiv-endpoint-%E5%88%9B%E5%BB%BA)
+        - [为 endpoint 分配 ip 和设置 mac 地址](#%E4%B8%BA-endpoint-%E5%88%86%E9%85%8D-ip-%E5%92%8C%E8%AE%BE%E7%BD%AE-mac-%E5%9C%B0%E5%9D%80)
+      - [contiv endpoint 删除](#contiv-endpoint-%E5%88%A0%E9%99%A4)
+        - [释放 endpoint ip](#%E9%87%8A%E6%94%BE-endpoint-ip)
+  - [endpointgroup 创建](#endpointgroup-%E5%88%9B%E5%BB%BA)
+  - [endpointgroup 删除](#endpointgroup-%E5%88%A0%E9%99%A4)
+- [References](#references)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # netmaster 框架代码分析
 
 ## netmaster 参数分析

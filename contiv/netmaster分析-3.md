@@ -1,3 +1,13 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [IP Address Management (IPAM)](#ip-address-management-ipam)
+- [Subnet IP Pool](#subnet-ip-pool)
+- [Service Discovery](#service-discovery)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # IP Address Management (IPAM)
 
 Contiv allocates a unique IP address for every container. An IP address allocated to a container is not bound to an application group or microservice tier. Every container simply gets an IP address from the subnet pool. Unlike some of the container networking solutions that require a subnet per host, the Contiv solution does not have such limitations. This also makes Contiv truly multi-tenant. You can have overlapping IP addresses across tenants.
