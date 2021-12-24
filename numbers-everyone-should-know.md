@@ -15,3 +15,8 @@
 | Read 1 MB sequentially from network 从网络上顺序读取 1M 的数据 | 10 ms |
 | Read 1 MB sequentially from disk 从磁盘里面读出 1MB | 30 ms |
 | Send packet CA->Netherlands->CA 一个包的一次远程访问 | 150 ms |
+
+Refers:
+- [Software Engineering Advice from
+Building Large-Scale Distributed Systems](Software_Engineering_Advice_from_Building_Large-Scale_Distributed_Systems.pdf)
+- [Jeff dean: keynote-ladis2009-scalable-distributed-google](dean-keynote-ladis2009-scalable-distributed-google.pdf)
