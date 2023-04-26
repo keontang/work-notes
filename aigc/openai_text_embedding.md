@@ -61,3 +61,8 @@ sentence_embeddings = model.encode(sentences)
 ```
 
 按照这篇文章 "https://medium.com/@nils_reimers/openai-gpt-3-text-embeddings-really-a-new-state-of-the-art-in-dense-text-embeddings-6571fe3ec9d9" 的说法，openai 的 embedding 模型性能也咋地，用 `sentence_transformers` 就完全够用了。
+
+# Refers
+
+- [SentenceTransformers Documentation](https://www.sbert.net/)
+- [Question_answering_using_embeddings.ipynb](https://github.com/openai/openai-cookbook/blob/main/examples/Question_answering_using_embeddings.ipynb)
