@@ -137,6 +137,17 @@ sentence_embeddings = model.encode(sentences)
 
 ## embedding 结合 chatgpt 的场景例子
 
+ChatGPT doesn't just return existing documents. It's able to assimilate a variety of information into a single, cohesive answer. To do this, we need to provide GPT with some relevant documents, and a prompt that it can use to formulate this answer.
+
+One of the biggest challenges of OpenAI's text-davinci-003 completion model is the 4000 token limit. You must fit both your prompt and the resulting completion within the 4000 tokens. This makes it challenging if you wanted to prompt GPT-3 to answer questions about your own custom knowledge base that would never fit in a single prompt.
+
+Embeddings can help solve this by splitting your prompts into a two-phased process:
+- Query your embedding database for the most relevant documents related to the question
+- Inject these documents as context for GPT-3 to reference in its answer
+
+
+所以，可以假设这么一个 case：
+
 - 1. **语料库准备**：通过爬虫，爬取近2年的关于环境的网页链接，生成语料库（比如网页 title、摘要、链接 等）
 - 2. **生成 embedding 数据库**：通过 openai embedding api 或者 sentence transformer，将语料库转化成 embeddings 保存到 database
 - 3. **基于 prompts，通过 chatgpt 写一篇关于某个地区环境改善变化的总结报告**
