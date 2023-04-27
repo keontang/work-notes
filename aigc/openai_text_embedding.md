@@ -104,7 +104,7 @@ curl https://api.openai.com/v1/embeddings \
 
 ![models-price](pics/models-price.png)
 
-其实没有必要，完全可以用一个开源的产品 https://github.com/UKPLab/sentence-transformers 本地计算 embedding 值。
+**其实没有必要，完全可以用一个开源的产品 https://github.com/UKPLab/sentence-transformers 本地计算 embedding 值。**
 
 比如使用 `sentence-transformers all-MiniLM-L6-v2` 模型（该模型 384 维的），计算过程也非常简单：
 
@@ -120,7 +120,7 @@ sentence_embeddings = model.encode(sentences)
 
 ```
 
-按照这篇文章 "https://medium.com/@nils_reimers/openai-gpt-3-text-embeddings-really-a-new-state-of-the-art-in-dense-text-embeddings-6571fe3ec9d9" 的说法，openai 的 embedding 模型性能也不咋地，用 `sentence_transformers` 就完全够用了。
+**按照这篇文章 "https://medium.com/@nils_reimers/openai-gpt-3-text-embeddings-really-a-new-state-of-the-art-in-dense-text-embeddings-6571fe3ec9d9" 的说法，openai 的 embedding 模型性能也不咋地，用 `sentence_transformers` 就完全够用了。**
 
 ## 基于 embedding 的搜索场景例子
 

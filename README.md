@@ -11,7 +11,7 @@
 好记性不如烂笔头
 
 - [AIGC](https://github.com/keontang/aigc)
-    - [openai embedding 本地替代方法](aigc/openai_text_embedding.md)
+    - [openai embedding 详解](aigc/openai_text_embedding.md)
 - [knowhow](https://github.com/keontang/knowhow)
 - 阿里云 terway 详解
     - [阿里云 terway 详解](terway/terway.md)
