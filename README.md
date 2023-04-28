@@ -1,26 +1,32 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+<!-- TOC -->
 
 - [work-notes](#work-notes)
+    - [AIGC](#aigc)
+    - [APM](#apm)
+    - [容器相关](#容器相关)
+    - [others](#others)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+<a id="markdown-work-notes" name="work-notes"></a>
 # work-notes
 
 好记性不如烂笔头
 
+<a id="markdown-aigc" name="aigc"></a>
 ## AIGC
 
 - [openai embedding 详解](aigc/openai_text_embedding.md)
 - [autogpt 架构详解](aigc/autogpt_architecture.md)
 
+<a id="markdown-apm" name="apm"></a>
 ## APM
 
 - [基本概念](apm/apm.md)
 - [服务端 apm](apm/服务端-apm.md)
 - [移动应用端 apm](apm/移动应用端-apm.md)
 
+<a id="markdown-容器相关" name="容器相关"></a>
 ## 容器相关
 
 - 阿里云 terway 详解
@@ -63,6 +69,7 @@
     - [contivk8s-cni分析](https://github.com/keontang/work-notes/blob/master/contiv/contivk8s-cni%E5%88%86%E6%9E%90.md)
     - [macvlan cni 分析](https://github.com/keontang/knowhow/blob/main/ipvlan-macvlan/macvlan-cni.md)
 
+<a id="markdown-others" name="others"></a>
 ## others
 
 - [Numbers Everyone Should Know](numbers-everyone-should-know.md)
