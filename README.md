@@ -17,7 +17,9 @@
 ## AIGC
 
 - [openai embedding 详解](aigc/openai_text_embedding.md)
+- [what is autogpt](aigc/what_is_autogpt.md)
 - [autogpt 架构详解](aigc/autogpt_architecture.md)
+- [autogpt 源码详解](aigc/autogpt_details.md)
 
 <a id="markdown-apm" name="apm"></a>
 ## APM
