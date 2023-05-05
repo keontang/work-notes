@@ -15,6 +15,8 @@
     - [get_prompt](#get_prompt)
     - [start_interaction_loop](#start_interaction_loop)
     - [chat_with_ai](#chat_with_ai)
+        - [create_chat_completion](#create_chat_completion)
+        - [execute_command](#execute_command)
 - [Plugin 机制](#plugin-机制)
 - [References](#references)
 
@@ -989,6 +991,13 @@ def generate_context(prompt, relevant_memory, full_message_history, model):
     )
 ```
 
+<a id="markdown-create_chat_completion" name="create_chat_completion"></a>
+### create_chat_completion
+
+> autogpt/llm_utils.py
+
+create_chat_completion 直接跟 OpenAI chat completion 接口通信，并获取返回值
+
 ```python
 # Overly simple abstraction until we create something better
 # simple retry mechanism when getting a rate error or a bad gateway
@@ -1058,6 +1067,11 @@ def create_chat_completion(
 
     return response.choices[0].message["content"]
 ```
+
+<a id="markdown-execute_command" name="execute_command"></a>
+### execute_command
+
+> autogpt/app.py
 
 ```python
 def execute_command(command_name: str, arguments):
@@ -1182,7 +1196,7 @@ def execute_command(command_name: str, arguments):
 <a id="markdown-plugin-机制" name="plugin-机制"></a>
 # Plugin 机制
 
-> 在 AutoGPT 0.3.0 版本中加入了 Plugin 机制
+> 在 AutoGPT 0.3.0 版本中加入了 Plugin 机制，所以 Plugin 这块代码需要看 0.3.0 之后的代码
 
 Plugin 机制也比较简单，是 AutoGPT Commands 的一个扩展，Plugin 机制是在 Prompt Loop 过程中插入了一些 Hook 点，在 Hook 点上，Plugin 代码能够执行一些额外的工作。Plugin 模版如下：
 
