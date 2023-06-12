@@ -74,6 +74,7 @@
 <a id="markdown-others" name="others"></a>
 ## others
 
+- [ipv4 & ipv6 双栈](others/dual-stack-base.md)
 - [Numbers Everyone Should Know](numbers-everyone-should-know.md)
 - [yaml 格式中字符串跨多行的格式方法](yaml.md)
 - [spark 介绍](spark/README.md)
