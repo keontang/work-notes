@@ -7,7 +7,7 @@
   - [CIDR](#cidr)
 - [CNI](#cni)
   - [CNI 网络配置](#cni-%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE)
-  - [<h2 id="CNI_INTERFACE">CNI 库接口</h2>](#h2-idcni_interfacecni-%E5%BA%93%E6%8E%A5%E5%8F%A3h2)
+  - [CNI 库接口](#h2-idcni_interfacecni-%E5%BA%93%E6%8E%A5%E5%8F%A3h2)
   - [CNI plugin](#cni-plugin)
   - [官方的 bridge CNI 插件框架代码分析](#%E5%AE%98%E6%96%B9%E7%9A%84-bridge-cni-%E6%8F%92%E4%BB%B6%E6%A1%86%E6%9E%B6%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90)
 - [Kubernetes 网络框架](#kubernetes-%E7%BD%91%E7%BB%9C%E6%A1%86%E6%9E%B6)
@@ -35,13 +35,13 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# 名称解释
+# 1. 名称解释
 
-## IPAM
+## 1.1. IPAM
 
 IP Adress Management 是规划, 跟踪和管理网络中使用的 IP 地址的系统.
 
-## CIDR
+## 1.2. CIDR
 
 CIDR (Classless Inter-Domain Routing) 无类别域间路由, 一个按位的, 基于前缀的, 用于解释 IP 地址的标准.
 
@@ -49,7 +49,7 @@ CIDR 是一种新的编址方式, 能够比传统的 A, B, C 类编址方式更�
 
 比如 192.168.0.0 子网掩码 255.255.255.0, 用 CIDR 表示为: `192.168.0.0/24`.
 
-# CNI
+# 2. CNI
 
 CNI (Container Network Interface) 容器网络接口, 是Linux容器网络配置的一组[标准](https://github.com/containernetworking/cni/blob/master/SPEC.md)和[库](https://github.com/containernetworking/cni), 用户需要根据这些标准和库来开发自己的容器网络插件. CNI 只专注解决容器网络连接和容器销毁时的资源释放, 所以 CNI 可以支持大量不同的网络模式, 并且容易实现.
 
@@ -57,7 +57,7 @@ CNI plugin 只需要通过 CNI 库实现两类方法, 一类事创建容器时�
 
 ![cni plugin](pics/cni_plugin.jpg)
 
-## CNI 网络配置
+## 2.1. CNI 网络配置
 
 CNI 网络初始化的时候, 会根据网络配置文件来进行相关的初始化工作.
 
@@ -140,7 +140,7 @@ type IPAMConfig struct {
 }
 ```
 
-## <h2 id="CNI_INTERFACE">CNI 库接口</h2>
+## 2.2. CNI 库接口
 
 利用 CNI 库, 我们可以实现一个支持 CNI 插件的网络模型. 该网络模型通过 `CNI interface` 的 `AddNetwork` 方法和 `DelNetwork` 方法调用 CNI 插件去执行 `ADD` 命令 (配置容器网络) 和 `DEL` 命令 (删除容器网络).
 
@@ -253,7 +253,7 @@ func (e *PluginExec) WithoutResult(pluginPath string, netconf []byte, args CNIAr
 
 所以, 要实现一个 cni plugin 只需要实现  `ADD` 和 `DEL` 命令就可以了. 可以参考官方 [bridge cni 插件](https://github.com/containernetworking/cni/blob/master/plugins/main/bridge/bridge.go#L416).
 
-## CNI plugin
+## 2.3. CNI plugin
 
 CNI 插件包含两部分:
 
@@ -275,7 +275,7 @@ CNI 插件负责将网络接口插入容器网络命名空间 (例如 veth 对�
 
 下面我们简单分析一下[官方的 bridge CNI 插件](https://github.com/containernetworking/cni/blob/master/plugins/main/bridge/bridge.go)的框架代码.
 
-## 官方的 bridge CNI 插件框架代码分析
+## 2.4. 官方的 bridge CNI 插件框架代码分析
 
 ```
 // cni/plugins/main/bridge/bridge.go
@@ -349,7 +349,7 @@ func main() {
 }
 ```
 
-# Kubernetes 网络框架
+# 3. Kubernetes 网络框架
 
 **Kubernetes version: 1.5**
 
@@ -357,7 +357,7 @@ Kubernetes 本身不提供容器网络, 但是实现了一套支持多种网络�
 
 目前 Kubernetes 支持三种网络类型: kubenet, CNI, exec. 但是 exec 网络类型会在 1.6 版本中移除, 而用 CNI 来代替 ([Remove 'exec' network plugin - use CNI instead](https://github.com/kubernetes/kubernetes/pull/39254)).
 
-## kubernetes 网络框架接口
+## 3.1. kubernetes 网络框架接口
 
 kubelet 是通过 NetworkPlugin interface 来调用底层的网络插件为容器设置网络环境.
 
@@ -412,7 +412,7 @@ type NetworkPlugin interface {
 
 后面还会详细分析 kubenet 网络框架, cni 网络框架.
 
-## kubelet 启动时选择合适的网络插件
+## 3.2. kubelet 启动时选择合适的网络插件
 
 kubelet 启动时会去查找所有可用的网络插件. 然后根据用户配置的网络插件名选择对应的网络插件.
 
@@ -436,7 +436,7 @@ func run(s *options.KubeletServer, kubeDeps *kubelet.KubeletDeps) (err error) {
 }
 ```
 
-### 查找所有可用的网络插件
+### 3.2.1. 查找所有可用的网络插件
 
 ```
 // cmd/kubelet/app/server.go
@@ -479,7 +479,7 @@ func ProbeNetworkPlugins(pluginDir, cniConfDir, cniBinDir string) []network.Netw
 }
 ```
 
-### 根据用户配置选择对应的网络插件
+### 3.2.2. 根据用户配置选择对应的网络插件
 
 RunKubelet() 函数首先会初始化 kubelet 对象, 这就包括根据用户网络配置选择对应的网络插件对象. 然后开始运行 kubelet.
 
@@ -719,7 +719,7 @@ func InitNetworkPlugin(plugins []NetworkPlugin, networkPluginName string, host H
 }
 ```
 
-## k8s kubenet 网络框架
+## 3.3. k8s kubenet 网络框架
 
 k8s kubenet 网络框架实现了 kubernetes NetworkPlugin interface, 对 `CNI Interface` 进行了封装:
 
@@ -789,7 +789,7 @@ Node2: 192.168.1.0/24
 
 通常情况下, kubenet 网络插件会跟 cloud provider 一起使用, 从而利用 cloud provider 来设置节点间的路由. kubenet 网络插件也可以用在单节点环境, 这样就不需要考虑 Node 间的路由了. 另外, 我们还可以通过实现一个 network controller 来保证 Node 间的路由.
 
-### k8s kubenet plugin 对象初始化
+### 3.3.1. k8s kubenet plugin 对象初始化
 
 ```
 // pkg/kubelet/network/kubenet/kubenet_linux.go
@@ -812,7 +812,7 @@ func NewPlugin(networkPluginDir string) network.NetworkPlugin {
 }
 ```
 
-### k8s kubenet plugin 初始化工作
+### 3.3.2. k8s kubenet plugin 初始化工作
 
 ```
 // pkg/kubelet/network/kubenet/kubenet_linux.go
@@ -872,7 +872,7 @@ func (plugin *kubenetNetworkPlugin) Init(host network.Host, hairpinMode componen
 }
 ```
 
-### kubenet Event
+### 3.3.3. kubenet Event
 
 kubelet 启动到 `NewMainKubelet` 时, 根据用户配置通过 `klet.updatePodCIDR(kubeCfg.PodCIDR)` 向 k8s network plugin 通报 `NET_PLUGIN_EVENT_POD_CIDR_CHANGE` 事件, 该事件将会被 `Event` 方法捕获.
 
@@ -950,7 +950,7 @@ func (plugin *kubenetNetworkPlugin) Event(name string, details map[string]interf
 }
 ```
 
-### kubenet SetUpPod
+### 3.3.4. kubenet SetUpPod
 
 创建 Pod 的时候会调用该方法.
 
@@ -1023,7 +1023,7 @@ func (plugin *kubenetNetworkPlugin) addContainerToNetwork(config *libcni.Network
 
 由前面 [CNI 库接口](#CNI_INTERFACE)可知, plugin.cniConfig.AddNetwork() 实际上调用的是 cni plugin 去实现容器网络配置. kubenet plugin 主要通过 [loopback](https://github.com/containernetworking/cni/tree/master/plugins/main/loopback) 和 [bridge](https://github.com/containernetworking/cni/tree/master/plugins/main/bridge) cni 插件将容器的 `lo` 和 `eth0` 添加到容器网络中. `bridge` 插件负责 Node 上 `cbr0` 的创建, 然后创建 `veth` 接口对, 通过 `veth` 接口对, 将容器添加到容器网络中. 另外, `host-local` IPAM plugin 负责为 `eth0` 分配 ip 地址.
 
-### kubenet TearDownPod
+### 3.3.5. kubenet TearDownPod
 
 删除 Pod 的时候会被调用.
 
@@ -1105,7 +1105,7 @@ func (plugin *kubenetNetworkPlugin) delContainerFromNetwork(config *libcni.Netwo
 
 由前面 [CNI 库接口](#CNI_INTERFACE)可知, plugin.cniConfig.DelNetwork() 实际上调用的是 cni plugin 去删除容器网络配置. `bridge` 插件负责调用 `host-local` IPAM plugin 释放该容器的 ip, 然后删除容器的网络接口等.
 
-## k8s CNI 网络插件
+## 3.4. k8s CNI 网络插件
 
 与 k8s kubenet 网络插件类似, k8s cni 网络插件也实现了 kubernetes NetworkPlugin interface, 封装了 `CNI Interface`:
 
@@ -1139,7 +1139,7 @@ type cniNetwork struct {
 
 ![k8s cni plugin](pics/k8s_cni_plugin.jpg)
 
-### k8s CNI plugin 对象初始化
+### 3.4.1. k8s CNI plugin 对象初始化
 
 ```
 // pkg/kubelet/network/cni/cni.go
@@ -1237,7 +1237,7 @@ func (plugin *cniNetworkPlugin) setDefaultNetwork(n *cniNetwork) {
 }
 ```
 
-### k8s CNI plugin 初始化工作
+### 3.4.2. k8s CNI plugin 初始化工作
 
 ```
 // pkg/kubelet/network/cni/cni.go
@@ -1260,7 +1260,7 @@ func (plugin *cniNetworkPlugin) Init(host network.Host, hairpinMode componentcon
 }
 ```
 
-### CNI Event
+### 3.4.3. CNI Event
 
 ```
 // pkg/kubelet/network/cni/cni.go
@@ -1293,7 +1293,7 @@ func (plugin *NoopNetworkPlugin) Event(name string, details map[string]interface
 
 可见 k8s cni 网络方式并没有规定使用 podCidr 来配置 node 上容器的网络 ip 段, 而把 pod 的 ip 分配完全交给 IPAM, 这样使得 IPAM 更加灵活, 多样化和定制化.
 
-### CNI SetUpPod
+### 3.4.4. CNI SetUpPod
 
 ```
 // pkg/kubelet/network/cni/cni.go
@@ -1351,7 +1351,7 @@ func (network *cniNetwork) addToNetwork(podName string, podNamespace string, pod
 
 由前面 [CNI 库接口](#CNI_INTERFACE)可知, cninet.AddNetwork() 实际上调用的是底层用户配置的 cni plugin 去实现容器网络配置.
 
-### CNI TearDownPod
+### 3.4.5. CNI TearDownPod
 
 ```
 // pkg/kubelet/network/cni/cni.go
@@ -1394,9 +1394,9 @@ func (network *cniNetwork) deleteFromNetwork(podName string, podNamespace string
 
 由前面 [CNI 库接口](#CNI_INTERFACE)可知, cninet.DelNetwork() 实际上调用的是 cni plugin 去删除容器网络配置.
 
-# 网络模型和网络功能测试
+# 4. 网络模型和网络功能测试
 
-## Kubernetes model
+## 4.1. Kubernetes model
 
 Coordinating ports across multiple developers is very difficult to do at scale and exposes users to cluster-level issues outside of their control. Dynamic port allocation brings a lot of complications to the system - every application has to take ports as flags, the API servers have to know how to insert dynamic port numbers into configuration blocks, services have to know how to find each other, etc. Rather than deal with this, Kubernetes takes a different approach.
 
@@ -1416,7 +1416,7 @@ As with Docker, it is possible to request host ports, but this is reduced to a v
 
 **Refer to**: [kubernetes-model](https://kubernetes.io/docs/concepts/cluster-administration/networking/#kubernetes-model)
 
-## Kubernetes network test
+## 4.2. Kubernetes network test
 
 I tried to enumerate everything you have to test:
 
@@ -1489,7 +1489,7 @@ public -> external LB, manual backend
 **refer to**: [https://github.com/kubernetes/community/pull/692#discussion_r121268810](https://github.com/kubernetes/community/pull/692#discussion_r121268810)
 
 
-# k8s CNI 社区动态
+# 5. k8s CNI 社区动态
 
 - 目前 k8s cni 容器网络模型中, 一个 pod 还不支持多 interface, 社区关于多 interface 的讨论:
     - [Multiple interfaces in a POD](https://github.com/containernetworking/cni/issues/114)
@@ -1502,7 +1502,7 @@ public -> external LB, manual backend
     - [MULTUS CNI plugin](https://github.com/Intel-Corp/multus-cni)
     - [Update CNI plugin to newest version; support ConfigLists ](https://github.com/kubernetes/kubernetes/pull/42202)
 
-# References
+# 6. References
 
 1. [Kubernetes网络插件](http://feisky.xyz/sdn/container/kubernetes.html)
 2. [network-plugins](https://kubernetes.io/docs/concepts/cluster-administration/network-plugins/)

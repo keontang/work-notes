@@ -15,7 +15,7 @@
 
 ## k8s volume 主要模块
 
-![k8s volume 主要模块](../pics/volume.png)
+![k8s volume 主要模块](volume.png)
 
 - attach/dettach controller 主要实现类似 RBD 这样的设备挂载到 node 节点
 - volume plugin 主要实现 volume mount 到 pod 中；这里的 volume 指的是 pod.spec.volumes 描述的普通 volume 和 pod.spec.volumes.persistentVolumeClaim 指定的对应 persistentVolume
