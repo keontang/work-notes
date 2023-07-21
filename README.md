@@ -4,6 +4,14 @@
     - [AIGC](#aigc)
     - [APM](#apm)
     - [容器相关](#容器相关)
+    - [DDD](#ddd)
+    - [others](#others)
+
+<!-- /TOC -->
+- [work-notes](#work-notes)
+    - [AIGC](#aigc)
+    - [APM](#apm)
+    - [容器相关](#容器相关)
     - [others](#others)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -74,6 +82,17 @@
 - [nvidia docker 介绍](k8s/nvidia-docker.md)
 - [clean null docker image script](k8s/clean-null-docker-image.sh)
 - [delete terminating namespace script](k8s/delete_terminating_namespace.sh)
+
+<a id="markdown-ddd" name="ddd"></a>
+## DDD
+
+- [DDD 领域驱动设计落地实践：六步拆解 DDD](DDD/1.md)
+- [一文扫清DDD核心概念理解障碍](DDD/2.md)
+- [DDD领域驱动设计落地实践：微服务拆分之道](DDD/3.md)
+- [可落地的DDD编码实践（代码结构）](DDD/4.md)
+- [DDD的类命名规范](DDD/5.md)
+- [领域驱动模型 VO、DTO、DO、PO 概念及其区别](DDD/6.md)
+- [客户管理系统微服务化实战-PartI](DDD/7.md)
 
 <a id="markdown-others" name="others"></a>
 ## others
