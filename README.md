@@ -24,10 +24,15 @@
 <a id="markdown-aigc" name="aigc"></a>
 ## AIGC
 
+- [basic knowledge](aigc/basic)
 - [openai embedding 详解](aigc/openai_text_embedding.md)
 - [what is autogpt](aigc/what_is_autogpt.md)
 - [autogpt 架构详解](aigc/autogpt_architecture.md)
 - [autogpt 源码详解](aigc/autogpt_details.md)
+- [transformer 理解](aigc/transformer/details.md)
+- [一文搞懂RNN（循环神经网络）基础篇](aigc/rnn1.md)
+- [循环神经网络 – Recurrent Neural Network | RNN](aigc/rnn2.md)
+- [RNN 扩展](aigc/rnn3.md)
 
 <a id="markdown-apm" name="apm"></a>
 ## APM
@@ -86,6 +91,7 @@
 <a id="markdown-ddd" name="ddd"></a>
 ## DDD
 
+- [强烈推荐 awesome-go-education 中的 DDD](https://mehdihadeli.github.io/awesome-go-education/ddd/)
 - [DDD 领域驱动设计落地实践：六步拆解 DDD](DDD/1.md)
 - [一文扫清DDD核心概念理解障碍](DDD/2.md)
 - [DDD领域驱动设计落地实践：微服务拆分之道](DDD/3.md)
@@ -93,6 +99,8 @@
 - [DDD的类命名规范](DDD/5.md)
 - [领域驱动模型 VO、DTO、DO、PO 概念及其区别](DDD/6.md)
 - [客户管理系统微服务化实战-PartI](DDD/7.md)
+- [领域模型映射代码结构](DDD/8.md)
+- [DDD领域驱动设计之聚合根、实体、值对象](DDD/9.md)
 
 <a id="markdown-others" name="others"></a>
 ## others

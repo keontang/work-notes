@@ -9,21 +9,24 @@ RUN apt-get update \
   && apt-get install gcc libc6-dev git lrzsz -y \
   && apt-get install python3 python3-dev python3-pip -y \
   && apt-get install wget vim curl unzip -y \
-  && apt-get install golang -y \
   && apt-get clean \
   && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 # 建立软链接
-RUN ln -s /usr/bin/python3 /usr/bin/python \
-  && ln -s /usr/bin/bash /bin/bash
+RUN ln -s /usr/bin/python3 /usr/bin/python
+# install golang
+RUN wget https://go.dev/dl/go1.20.1.linux-amd64.tar.gz \
+  && tar -C /usr/local -xzf go1.20.1.linux-amd64.tar.gz \
+  && rm go1.20.1.linux-amd64.tar.gz
 # 配置环境变量
-ENV GOROOT=/usr/lib/go        
-ENV PATH=$PATH:/usr/lib/go/bin 
+ENV GOROOT=/usr/local/go
+ENV PATH=$PATH:/usr/local/go/bin
 ENV GOPATH=/root/go
 ENV PATH=$PATH:$GOPATH/bin/
 # 定制工作目录
-RUN mkdir -p /root/go/{src,bin,lib} \
-  && mkdir -p /root/go/src/github.com/keontang
-WORKDIR /root/go/src/github.com/keontang/
+RUN mkdir -p /root/go/src \
+  && mkdir -p /root/go/bin \
+  && mkdir -p /root/go/keontang
+WORKDIR /root/go/keontang/
 
 # 安装 hertz
 RUN go install github.com/cloudwego/hertz/cmd/hz@latest
