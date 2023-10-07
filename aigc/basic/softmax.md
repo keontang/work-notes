@@ -10,6 +10,8 @@
 
 ![formula-exp](pics/softmax-formula-exp.png)
 
+![function](pics/Softmax_Function.png)
+
 更形象的如下图表示：
 
 ![example](pics/softmax-example.png)
