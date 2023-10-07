@@ -1,7 +1,7 @@
 - [Resizual Connection](./resizual_connection.md)
 - [Neural Network Models](./Neural_Network_Models.md)
 - [applying deep neural networks to natural language processing](./deep_neural_networks_NLP.md)
-- [Feature-based vs Fine-tuning]()
+- [Feature-based vs Fine-tuning](./feature-based_vs_fine-tuning.md)
 
 - Activation functions
   - [activation](./activation.md)
