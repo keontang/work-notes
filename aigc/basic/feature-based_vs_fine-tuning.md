@@ -17,3 +17,7 @@ A common workflow is to "freeze" all of the learned patterns in the bottom layer
 After you've trained the top 2-3 layers, you can then gradually "unfreeze" more and more layers and run the training process on your own data to further **fine-tune** the pretrained model.
 
 The lower a layer is in a computer vision model as in, the closer it is to the input layer, the larger the features it learn. For example, a bottom layer in a computer vision model to identify images of cats or dogs might learn the outline of legs, where as, layers closer to the output might learn the shape of teeth. Often, you'll want the larger features (learned patterns are also called features) to remain, since these are similar for both animals, where as, the differences remain in the more fine-grained features.
+
+Instruction tuning is a simple method that, as depicted in the following picture, combines appealing aspects of both the pretrain–finetune and prompting paradigms by using supervision via finetuning to improve language model’s responses to inference-time text interactions.
+
+![Comparing instruction tuning with pretrain–finetune and prompting](pics/instruction_tuning_with_pretrain–finetune_and_prompting.png)
