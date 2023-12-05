@@ -33,6 +33,7 @@
 - [一文搞懂RNN（循环神经网络）基础篇](aigc/rnn1.md)
 - [循环神经网络 – Recurrent Neural Network | RNN](aigc/rnn2.md)
 - [RNN 扩展](aigc/rnn3.md)
+- [A Complete LangChain Guide](aigc/langchain_details.md)
 
 <a id="markdown-apm" name="apm"></a>
 ## APM
