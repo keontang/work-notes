@@ -41,7 +41,7 @@
         - [VAE 简单推导](aigc/basic/vae/VAE_简单推导.pdf)
         - [VAE 变分自编码公式推导](aigc/basic/vae/VAE变分自编码器公式推导.pdf)
         - [EM算法](aigc/basic/vae/EM算法.pdf)
-        - [AI艺术的背后：详解文本生成图像模型](aigc/basic/vae/AI艺术的背后：详解文本生成图像模型 - 知乎.pdf)
+        - [AI艺术的背后：详解文本生成图像模型](aigc/basic/vae/AI艺术的背后：详解文本生成图像模型%20-%20知乎.pdf)
 
 <a id="markdown-apm" name="apm"></a>
 ## APM
